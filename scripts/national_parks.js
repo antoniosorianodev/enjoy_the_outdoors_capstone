@@ -47,7 +47,7 @@ function buildTable(event) {
             if (park.Visit === undefined) {
                 cellURL.innerHTML = "N/A";
             } else {
-                cellURL.innerHTML = `<a href="${isApplicable(park.Visit)}">${isApplicable(park.Visit)}</a>`;
+                cellURL.innerHTML = `<a href="${isApplicable(park.Visit)}" target="_blank">${isApplicable(park.Visit)}</a>`;
             }
 
         });
