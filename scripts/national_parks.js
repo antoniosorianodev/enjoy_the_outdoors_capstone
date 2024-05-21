@@ -13,10 +13,10 @@ window.onload = () => {
     // elements and last time I tried to pass in arguments to a function in an event listener without closures, it got mad.
     locationRadio.addEventListener("click", createFnToGenerateDropdown(myDropdown, locationRadio, parkTypeRadio, myTable));
     parkTypeRadio.addEventListener("click", createFnToGenerateDropdown(myDropdown, locationRadio, parkTypeRadio, myTable));
-    myDropdown.addEventListener("change", createFnToGenerateTable(myDropdown, myTable));
+    myDropdown.addEventListener("change", createFnToGenerateTable(myDropdown, locationRadio, parkTypeRadio, myTable));
 }
 
-function createFnToGenerateTable(dropdown, table) {
+function createFnToGenerateTable(dropdown, location, parkType, table) {
     return () => {
         let index = (dropdown.selectedIndex);
         let tbody = document.querySelector("#tbody");
@@ -26,7 +26,15 @@ function createFnToGenerateTable(dropdown, table) {
 
         // if (index === 0), and then switching what's in the blocks works, so does if (index) and no switch, which is better?
         if (index !== 0) {
-            let relevantParksArray = nationalParksArray.filter(park => (park.State === dropdown[index].value || park.LocationName.indexOf(dropdown[index].value) !== -1));
+            // man, what an ugly solution :L
+            let relevantParksArray;
+            if (location.checked) {
+                let filteredArray = nationalParksArray.filter(park => (park.State === dropdown[index].value));
+                relevantParksArray = filteredArray;
+            } else if (parkType.checked) {
+                let filteredArray = nationalParksArray.filter(park => (park.LocationName.indexOf(dropdown[index].value) !== -1));
+                relevantParksArray = filteredArray;
+            }
             console.log(relevantParksArray);
 
             relevantParksArray.forEach((park) => {
