@@ -21,7 +21,7 @@ function createFnToGenerateTable(dropdown, location, parkType, table) {
         let index = (dropdown.selectedIndex);
         let tbody = document.querySelector("#tbody");
 
-        table.style.display = "inline";
+        table.style.display = "block";
         tbody.innerHTML = "";
 
         // if (index === 0), and then switching what's in the blocks works, so does if (index) and no switch, which is better?
@@ -80,7 +80,7 @@ function createFnToGenerateDropdown(dropdown, location, parkType, table) {
             createDefaultOption("-- Choose a Park Type --", dropdown);;
             buildDropdown(parkTypesArray, dropdown);
         }
-        dropdown.style.display = "inline";
+        dropdown.style.display = "block";
     }
 }
 
