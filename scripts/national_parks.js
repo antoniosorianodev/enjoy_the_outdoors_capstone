@@ -1,79 +1,79 @@
 "use strict"
-// this is an eyesore, but trimming this down is on the to-do list
 
 window.onload = () => {
-
     let myDropdown = document.querySelector("#parkDropdown");
     let locationRadio = document.querySelector("#locationRadio");
     let parkTypeRadio = document.querySelector("#parkTypeRadio");
     let myTable = document.querySelector("#parksTable");
+
     myTable.style.display = "none";
     myDropdown.style.display = "none";
 
-    locationRadio.addEventListener("click", buildMyDropdown);
-    parkTypeRadio.addEventListener("click", buildMyDropdown);
-
-    myDropdown.addEventListener("change", buildTable);
+    // Why use closures? I believe if I can avoid calling the document I should, this allows me to pass in the already called
+    // elements and last time I tried to pass in arguments to a function in an event listener without closures, it got mad.
+    locationRadio.addEventListener("click", createFnToGenerateDropdown(myDropdown, locationRadio, parkTypeRadio, myTable));
+    parkTypeRadio.addEventListener("click", createFnToGenerateDropdown(myDropdown, locationRadio, parkTypeRadio, myTable));
+    myDropdown.addEventListener("change", createFnToGenerateTable(myDropdown, myTable));
 }
 
-function buildTable(event) {
-    let theTable = document.querySelector("#parksTable");
-    theTable.style.display = "inline";
-    let theDropdown = event.target;
-    let btsIndex = (theDropdown.selectedIndex);
-    let tbody = document.querySelector("#tbody");
-    tbody.innerHTML = "";
+function createFnToGenerateTable(dropdown, table) {
+    return () => {
+        let index = (dropdown.selectedIndex);
+        let tbody = document.querySelector("#tbody");
 
-    if (btsIndex !== 0) {
-        let relevantParksArray = nationalParksArray.filter(park => (park.State === theDropdown[btsIndex].value || park.LocationName.indexOf(theDropdown[btsIndex].value) !== -1));
-        console.log(relevantParksArray);
+        table.style.display = "inline";
+        tbody.innerHTML = "";
 
-        relevantParksArray.forEach((park) => {
-            let newRow = tbody.insertRow();
-            let cellId = newRow.insertCell();
-            cellId.innerHTML = park.LocationID;
+        // if (index === 0), and then switching what's in the blocks works, so does if (index) and no switch, which is better?
+        if (index !== 0) {
+            let relevantParksArray = nationalParksArray.filter(park => (park.State === dropdown[index].value || park.LocationName.indexOf(dropdown[index].value) !== -1));
+            console.log(relevantParksArray);
 
-            let cellName = newRow.insertCell();
-            cellName.innerHTML = park.LocationName;
+            relevantParksArray.forEach((park) => {
+                let newRow = tbody.insertRow();
+                let cellId = newRow.insertCell();
+                cellId.innerHTML = park.LocationID;
 
-            let cellAddress = newRow.insertCell();
-            cellAddress.innerHTML = `${park.Address}, ${park.State} ${park.ZipCode}`;
+                let cellName = newRow.insertCell();
+                cellName.innerHTML = park.LocationName;
 
-            let cellPhone = newRow.insertCell();
-            cellPhone.innerHTML = `<div><b>Phone:</b> ${isApplicable(park.Phone)}</div>
-            <div><b>Fax:</b> ${isApplicable(park.Fax)}</div>`;
+                let cellAddress = newRow.insertCell();
+                cellAddress.innerHTML = `${park.Address}, ${park.State} ${park.ZipCode}`;
 
-            let cellURL = newRow.insertCell();
-            if (park.Visit === undefined) {
-                cellURL.innerHTML = "N/A";
-            } else {
-                cellURL.innerHTML = `<a href="${isApplicable(park.Visit)}" target="_blank">${isApplicable(park.Visit)}</a>`;
-            }
+                let cellPhone = newRow.insertCell();
+                cellPhone.innerHTML = `<div><b>Phone:</b> ${convertNA(park.Phone)}</div>
+                <div><b>Fax:</b> ${convertNA(park.Fax)}</div>`;
 
-        });
-    } else {
-        theTable.style.display = "none";
+                let cellURL = newRow.insertCell();
+                if (park.Visit === undefined) {
+                    cellURL.innerHTML = "N/A";
+                } else {
+                    cellURL.innerHTML = `<a href="${convertNA(park.Visit)}" target="_blank">${convertNA(park.Visit)}</a>`;
+                }
+
+            });
+        } else {
+            table.style.display = "none";
+        }
     }
 }
 
-function buildMyDropdown() {
-    let dropdown = document.querySelector("#parkDropdown");
-    let location = document.querySelector("#locationRadio");
-    let parkType = document.querySelector("#parkTypeRadio");
-    let table = document.querySelector("#parksTable");
-    dropdown.style.display = "none";
-    table.style.display = "none";
+function createFnToGenerateDropdown(dropdown, location, parkType, table) {
+    return () => {
+        dropdown.style.display = "none";
+        table.style.display = "none";
 
-    dropdown.length = 0;
+        dropdown.length = 0;
 
-    if (document.querySelector("#locationRadio").checked) {
-        createDefaultOption("-- Choose a Park Location --", dropdown);
-        buildDropdown(locationsArray, dropdown);
-    } else if (document.querySelector("#parkTypeRadio").checked) {
-        createDefaultOption("-- Choose a Park Type --", dropdown);;
-        buildDropdown(parkTypesArray, dropdown);
+        if (location.checked) {
+            createDefaultOption("-- Choose a Park Location --", dropdown);
+            buildDropdown(locationsArray, dropdown);
+        } else if (parkType.checked) {
+            createDefaultOption("-- Choose a Park Type --", dropdown);;
+            buildDropdown(parkTypesArray, dropdown);
+        }
+        dropdown.style.display = "inline";
     }
-    dropdown.style.display = "inline";
 }
 
 function createDefaultOption(name, dropdown) {
@@ -94,21 +94,7 @@ function buildDropdown(array, dropdown) {
     });
 }
 
-function isApplicable(parameter) {
-    if (parameter === 0 || parameter === undefined) {
-        return "N/A"
-    } else {
-        return parameter
-    }
+function convertNA(parameter) {
+    // this line says: if (parameter === true) -> return parameter; else -> return "N/A"
+    return parameter ? parameter : "N/A";
 }
-
-// spent too long not looking at my data, that's funny
-
-// correspondingArray = nationalParksArray;
-// property = "State";
-// correspondingArray.forEach((arrayItem) => {
-//     let newOption = document.createElement("option");
-//     newOption.value = arrayItem[property];
-//     newOption.textContent = arrayItem[property];
-
-//     dropdown.appendChild(newOption);
