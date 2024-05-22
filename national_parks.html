@@ -37,25 +37,27 @@
     <input class="d form-check-input mx-auto" type="radio" id="locationRadio" name="searchBy"></input>
     <label for="locationRadio" class="d mx-auto">Location</label>
     <input class="d form-check-input mx-auto" type="radio" id="parkTypeRadio" name="searchBy"></input>
-    <label for="parkTypeRadio" class="d mx-auto">Park Type</label>
+    <label for="parkTypeRadio" class="d mx-auto">Type</label>
   </div>
 
   <div>
     <select class="form-select w-25 mb-3 mx-auto" id="parkDropdown"></select>
   </div>
 
-  <table class="table table-dark table-striped w-75 mx-auto" id="parksTable">
-    <thead>
-      <th>Location ID:</th>
-      <th>Name:</th>
-      <th>Address:</th>
-      <th>Phone:</th>
-      <th>URL:</th>
-    </thead>
-    <tbody id="tbody">
+  <div class="border-top border-2 pt-5 w-75 mx-auto">
+    <table class="table table-dark table-striped w-100 mx-auto" id="parksTable">
+      <thead>
+        <th>Location ID:</th>
+        <th>Name:</th>
+        <th>Address:</th>
+        <th>Phone:</th>
+        <th>URL:</th>
+      </thead>
+      <tbody id="tbody">
 
-    </tbody>
-  </table>
+      </tbody>
+    </table>
+  </div>
 
   <!-- Bootstrap JavaScript -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

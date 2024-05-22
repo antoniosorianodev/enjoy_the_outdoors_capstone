@@ -32,7 +32,7 @@ function generateTable(dropdown, location, parkType, table) {
             const filteredArray = nationalParksArray.filter(park => (park.State === currentSelection));
             relevantParksArray = filteredArray;
         } else if (parkType.checked) {
-            const filteredArray = nationalParksArray.filter(park => (park.LocationName.indexOf(currentSelection) !== -1));
+            const filteredArray = nationalParksArray.filter(park => (park.LocationName.toLowerCase().indexOf(currentSelection.toLowerCase()) !== -1));
             relevantParksArray = filteredArray;
         }
 
