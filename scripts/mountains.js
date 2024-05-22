@@ -55,8 +55,8 @@ function generateCard(dropdown, card) {
 
         // Using the function to fetch the sunset/sunrise times for a specific mountain 
         getSunsetForMountain(objectFromArray.coords.lat, objectFromArray.coords.lng).then(sunsetData => {
-            document.querySelector("#cardSunTimes").innerHTML = `<p><b>Sunrise:</b> ${sunsetData.results.sunrise}</p>
-            <p><b>Sunset:</b> ${sunsetData.results.sunset}</p>`;
+            document.querySelector("#cardSunrise").innerHTML = `<b>Sunrise:</b> ${sunsetData.results.sunrise}`
+            document.querySelector("#cardSunset").innerHTML = `<b>Sunrise:</b> ${sunsetData.results.sunset}`
         });
 
         card.style.display = "block";

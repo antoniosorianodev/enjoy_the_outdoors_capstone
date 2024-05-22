@@ -31,21 +31,25 @@
     </nav>
   </header>
 
-  <h1 class="text-center">Mountains</h1>
+  <h1 class="text-center">Mountains Information</h1>
 
   <div>
     <select class="form-select w-25 mb-3 mx-auto" id="selectMountain"></select>
   </div>
 
-  <div class="card w-25 card-body mx-auto" id="card">
+  <div class="card text-bg-dark w-25 card-body mx-auto px-0 pb-0" id="card">
+    <h5 class="card-title text-center" id="cardTitle"></h5>
     <img class="card-img-top card-img-fit" src="" alt="" id="cardImg">
     <div>
-      <h5 class="card-title" id="cardTitle"></h5>
-      <p id="cardDescription"></p>
-      <p id="cardElevation"></p>
-      <p id="cardEffort"></p>
-      <p id="cardCoordinates"></p>
-      <div id="cardSunTimes"></div>
+      <li class="list-group-item p-4 text-center" id="cardDescription"></li>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item list-group-item-secondary" id="cardElevation"></li>
+        <li class="list-group-item list-group-item-secondary" id="cardEffort"></li>
+        <li class="list-group-item list-group-item-secondary" id="cardCoordinates"></li>
+        <li class="list-group-item list-group-item-secondary" id="cardSunrise"></li>
+        <li class="list-group-item list-group-item-secondary" id="cardSunset"></li>
+        </li>
+      </ul>
     </div>
 
     <!-- Bootstrap JavaScript -->
