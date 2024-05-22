@@ -44,7 +44,8 @@ function generateTable(dropdown, location, parkType, table) {
             cellName.innerHTML = park.LocationName;
 
             let cellAddress = newRow.insertCell();
-            cellAddress.innerHTML = `${park.Address}, ${park.State} ${park.ZipCode}`;
+            cellAddress.innerHTML = `<div>${park.Address}</div>
+            <div>${park.City}, ${park.State} ${park.ZipCode}</div>`;
 
             let cellPhone = newRow.insertCell();
             cellPhone.innerHTML = `<div><b>Phone:</b> ${convertNA(park.Phone)}</div>
@@ -58,7 +59,12 @@ function generateTable(dropdown, location, parkType, table) {
             }
         });
 
-        table.style.display = "block";
+        // could be cleaner but it's end of day, this will do for now
+        if (tbody.innerHTML === "") {
+            table.style.display = "none";
+        } else {
+            table.style.display = "block";
+        }
     }
 }
 
