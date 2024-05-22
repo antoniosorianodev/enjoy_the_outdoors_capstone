@@ -2,6 +2,7 @@
 
 window.onload = () => {
     const myDropdown = document.querySelector("#parkDropdown");
+    const allRadio = document.querySelector("#allRadio");
     const locationRadio = document.querySelector("#locationRadio");
     const parkTypeRadio = document.querySelector("#parkTypeRadio");
     const myTable = document.querySelector("#parksTable");
@@ -11,9 +12,42 @@ window.onload = () => {
 
     // Why use closures? I believe if I can avoid calling the document I should, this allows me to pass in the already called
     // elements and last time I tried to pass in arguments to a function in an event listener without closures, it got mad.
+    allRadio.addEventListener("click", () => generateEntireTable(myTable));
     locationRadio.addEventListener("click", () => generateDropdown(myDropdown, locationRadio, parkTypeRadio, myTable));
     parkTypeRadio.addEventListener("click", () => generateDropdown(myDropdown, locationRadio, parkTypeRadio, myTable));
     myDropdown.addEventListener("change", (event) => { generateTable(event.target, locationRadio, parkTypeRadio, myTable) });
+}
+
+function generateEntireTable(table) {
+    // this is literally copy and pasted except different array, revisit this and make it a funciton so it's reuseable
+    // as another to-do, hide the dropdown
+    nationalParksArray.forEach((park) => {
+        const newRow = tbody.insertRow();
+
+        const cellId = newRow.insertCell();
+        cellId.innerHTML = park.LocationID;
+
+        const cellName = newRow.insertCell();
+        cellName.innerHTML = park.LocationName;
+
+        const cellAddress = newRow.insertCell();
+        cellAddress.innerHTML = `<div>${park.Address}</div>
+        <div>${park.City}, ${park.State} ${park.ZipCode}</div>`;
+
+        const cellPhone = newRow.insertCell();
+        cellPhone.innerHTML = `<div><b>Phone:</b> ${convertNA(park.Phone)}</div>
+        <div><b>Fax:</b> ${convertNA(park.Fax)}</div>`;
+
+        const cellURL = newRow.insertCell();
+        if (park.Visit) {
+            cellURL.innerHTML = `<a href="${park.Visit}" target="_blank">${park.Visit}</a>`;
+        } else {
+            cellURL.innerHTML = "N/A";
+        }
+    });
+
+    // this is new
+    table.style.display = "block";
 }
 
 function generateTable(dropdown, location, parkType, table) {
