@@ -1,8 +1,8 @@
 "use strict"
 
 window.onload = () => {
-    let dropdown = document.querySelector("#selectMountain");
-    let card = document.querySelector("#card");
+    const dropdown = document.querySelector("#selectMountain");
+    const card = document.querySelector("#card");
     card.style.display = "none";
 
     initDropdown(dropdown);
@@ -11,7 +11,7 @@ window.onload = () => {
 }
 
 function initDefault(dropdown) {
-    let newOption = document.createElement("option");
+    const newOption = document.createElement("option");
     newOption.value = "";
     newOption.textContent = "-- Select a Mountain --";
 
@@ -22,7 +22,7 @@ function initDropdown(dropdown) {
     initDefault(dropdown);
 
     mountainsArray.forEach((mountain) => {
-        let newOption = document.createElement("option");
+        const newOption = document.createElement("option");
         newOption.value = mountain.name;
         newOption.textContent = mountain.name;
 
@@ -33,11 +33,11 @@ function initDropdown(dropdown) {
 function generateCard(dropdown, card) {
     card.style.display = "none";
 
-    if (dropdown[dropdown.selectedIndex]) {
-        let objectFromArray = mountainsArray[dropdown.selectedIndex - 1];
+    if (dropdown.value) {
+        const objectFromArray = mountainsArray[dropdown.selectedIndex - 1];
 
         // this is a lot of DOM calls, possibly revisit this
-        let cardImg = document.querySelector("#cardImg");
+        const cardImg = document.querySelector("#cardImg");
         document.querySelector("#cardTitle").innerHTML = objectFromArray.name;
         cardImg.src = `./images/${objectFromArray.img}`;
         cardImg.alt = `An image of ${objectFromArray.name}`;

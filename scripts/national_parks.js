@@ -1,10 +1,10 @@
 "use strict"
 
 window.onload = () => {
-    let myDropdown = document.querySelector("#parkDropdown");
-    let locationRadio = document.querySelector("#locationRadio");
-    let parkTypeRadio = document.querySelector("#parkTypeRadio");
-    let myTable = document.querySelector("#parksTable");
+    const myDropdown = document.querySelector("#parkDropdown");
+    const locationRadio = document.querySelector("#locationRadio");
+    const parkTypeRadio = document.querySelector("#parkTypeRadio");
+    const myTable = document.querySelector("#parksTable");
 
     myTable.style.display = "none";
     myDropdown.style.display = "none";
@@ -17,52 +17,51 @@ window.onload = () => {
 }
 
 function generateTable(dropdown, location, parkType, table) {
-    let index = (dropdown.selectedIndex);
-    let tbody = document.querySelector("#tbody");
+    const tbody = document.querySelector("#tbody");
 
     table.style.display = "none";
 
-    if (index !== 0) {
+    const currentSelection = dropdown.value;
+
+    if (currentSelection) {
         tbody.innerHTML = "";
 
         let relevantParksArray;
 
         if (location.checked) {
-            let filteredArray = nationalParksArray.filter(park => (park.State === dropdown[index].value));
+            const filteredArray = nationalParksArray.filter(park => (park.State === currentSelection));
             relevantParksArray = filteredArray;
         } else if (parkType.checked) {
-            let filteredArray = nationalParksArray.filter(park => (park.LocationName.indexOf(dropdown[index].value) !== -1));
+            const filteredArray = nationalParksArray.filter(park => (park.LocationName.indexOf(currentSelection) !== -1));
             relevantParksArray = filteredArray;
         }
 
         relevantParksArray.forEach((park) => {
-            let newRow = tbody.insertRow();
-            let cellId = newRow.insertCell();
+            const newRow = tbody.insertRow();
+
+            const cellId = newRow.insertCell();
             cellId.innerHTML = park.LocationID;
 
-            let cellName = newRow.insertCell();
+            const cellName = newRow.insertCell();
             cellName.innerHTML = park.LocationName;
 
-            let cellAddress = newRow.insertCell();
+            const cellAddress = newRow.insertCell();
             cellAddress.innerHTML = `<div>${park.Address}</div>
             <div>${park.City}, ${park.State} ${park.ZipCode}</div>`;
 
-            let cellPhone = newRow.insertCell();
+            const cellPhone = newRow.insertCell();
             cellPhone.innerHTML = `<div><b>Phone:</b> ${convertNA(park.Phone)}</div>
             <div><b>Fax:</b> ${convertNA(park.Fax)}</div>`;
 
-            let cellURL = newRow.insertCell();
-            if (park.Visit === undefined) {
-                cellURL.innerHTML = "N/A";
+            const cellURL = newRow.insertCell();
+            if (park.Visit) {
+                cellURL.innerHTML = `<a href="${park.Visit}" target="_blank">${park.Visit}</a>`;
             } else {
-                cellURL.innerHTML = `<a href="${convertNA(park.Visit)}" target="_blank">${convertNA(park.Visit)}</a>`;
+                cellURL.innerHTML = "N/A";
             }
         });
 
-        // could be cleaner but it's end of day, this will do for now
-        if (tbody.innerHTML === "") {
-            table.style.display = "none";
-        } else {
+        if (tbody.innerHTML) {
             table.style.display = "block";
         }
     }
@@ -86,7 +85,7 @@ function generateDropdown(dropdown, location, parkType, table) {
 }
 
 function createDefaultOption(name, dropdown) {
-    let defaultOption = document.createElement("option");
+    const defaultOption = document.createElement("option");
     defaultOption.value = "";
     defaultOption.textContent = name;
 
@@ -95,7 +94,7 @@ function createDefaultOption(name, dropdown) {
 
 function buildDropdown(array, dropdown) {
     array.forEach((arrayItem) => {
-        let newOption = document.createElement("option");
+        const newOption = document.createElement("option");
         newOption.value = arrayItem;
         newOption.textContent = arrayItem;
 
