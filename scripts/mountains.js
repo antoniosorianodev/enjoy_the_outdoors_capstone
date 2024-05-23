@@ -68,7 +68,7 @@ function createCard(dropdown, card) {
         // Using the function to fetch the sunset/sunrise times for a specific mountain 
         getSunsetForMountain(currentMountain.coords.lat, currentMountain.coords.lng).then(sunsetData => {
             document.querySelector("#cardSunrise").innerHTML = `<b>Sunrise:</b> ${sunsetData.results.sunrise} (UTC)`
-            document.querySelector("#cardSunset").innerHTML = `<b>Sunrise:</b> ${sunsetData.results.sunset} (UTC)`
+            document.querySelector("#cardSunset").innerHTML = `<b>Sunset:</b> ${sunsetData.results.sunset} (UTC)`
         });
 
         // after all this work is done, show the finished card
