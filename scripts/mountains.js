@@ -1,16 +1,22 @@
 "use strict"
 
 window.onload = () => {
+    // declaring all the HTML elements I'll need once and ONLY once
     const dropdown = document.querySelector("#selectMountain");
     const card = document.querySelector("#card");
+
+    // hide the card ASAP
     card.style.display = "none";
 
-    initDropdown(dropdown);
+    // add all the mountains to the dropdown
+    populateDropdown(dropdown);
 
-    dropdown.addEventListener("change", () => generateCard(dropdown, card));
+    // when the dropdown is changed, create the correct card
+    dropdown.addEventListener("change", () => createCard(dropdown, card));
 }
 
-function initDefault(dropdown) {
+// this Fn's job is to create a default option to the dropdown and add it
+function addDefaultToDropdown(dropdown) {
     const newOption = document.createElement("option");
     newOption.value = "";
     newOption.textContent = "-- Select a Mountain --";
@@ -18,8 +24,9 @@ function initDefault(dropdown) {
     dropdown.appendChild(newOption);
 }
 
-function initDropdown(dropdown) {
-    initDefault(dropdown);
+// this Fn's job is to fill the dropdown with the default and all the mountains
+function populateDropdown(dropdown) {
+    addDefaultToDropdown(dropdown);
 
     mountainsArray.forEach((mountain) => {
         const newOption = document.createElement("option");
@@ -30,14 +37,19 @@ function initDropdown(dropdown) {
     });
 }
 
-function generateCard(dropdown, card) {
+// this Fn's job is to change all of the card's elements to match the user's selected mountain
+function createCard(dropdown, card) {
+    // hide the card ASAP
     card.style.display = "none";
 
+    // if dropdown.value doesn't equal "", or other FALSEY values
     if (dropdown.value) {
+        // this is our currently selected mountain as an object
         const objectFromArray = mountainsArray[dropdown.selectedIndex - 1];
 
-        // this is a lot of DOM calls, possibly revisit this
+        // set this to a constant because it's called more than once
         const cardImg = document.querySelector("#cardImg");
+
         document.querySelector("#cardTitle").innerHTML = objectFromArray.name;
         cardImg.src = `./images/${objectFromArray.img}`;
         cardImg.alt = `An image of ${objectFromArray.name}`;
@@ -59,6 +71,7 @@ function generateCard(dropdown, card) {
             document.querySelector("#cardSunset").innerHTML = `<b>Sunrise:</b> ${sunsetData.results.sunset} (UTC)`
         });
 
+        // after all this work is done, show the finished card
         card.style.display = "block";
     }
 }
