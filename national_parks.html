@@ -34,6 +34,7 @@
 
   <div class="d-flex justify-content-center mb-3 px-3 py-0">
     <b>Search:</b>
+    <!-- gave all radio buttons the same value for name so that only 1 can be selected at a time -->
     <div class="px-3">
       <input class="form-check-input mx-auto" type="radio" id="allRadio" name="search"></input>
       <label for="allRadio" class="mx-auto">All</label>
@@ -52,8 +53,9 @@
     <select class="form-select w-25 mb-3 mx-auto" id="parkDropdown"></select>
   </div>
 
+  <!-- this div only exists to provide a line between the dropdown and the table -->
   <div class="border-top border-2 pt-5 w-75 mx-auto">
-    <table class="table table-dark table-striped w-100 mx-auto" id="parksTable">
+    <table class="table table-dark table-striped w-100" id="parksTable">
       <thead>
         <th>Location ID:</th>
         <th>Name:</th>
@@ -61,6 +63,7 @@
         <th>Phone:</th>
         <th>URL:</th>
       </thead>
+      <!-- This is empty on page load but will be filled in national_parks.js -->
       <tbody id="tbody">
 
       </tbody>

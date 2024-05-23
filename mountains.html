@@ -37,13 +37,21 @@
     <select class="form-select w-25 mb-3 mx-auto" id="selectMountain"></select>
   </div>
 
+  <!-- This first div only exists to create a line between the dropdown and the card, since they're different widths-->
   <div class="border-top border-2 pt-5 w-75 mx-auto">
+
+    <!-- This div is actually for the card and will be accessed in mountains.js -->
     <div class="card text-bg-dark w-50 card-body mx-auto px-0 pb-0 mb-3" id="card">
       <h5 class="card-title text-center" id="cardTitle"></h5>
       <img class="card-img-top card-img-fit" src="" alt="" id="cardImg">
+
       <div>
+
+        <!-- This li is not in a list so this is probably bad, however, li keeps styling consistent -->
         <li class="list-group-item p-4 text-center" id="cardDescription"></li>
+
         <ul class="list-group list-group-flush">
+          <!-- list-group-item-secondary is just sets the background color to gray (grey?) -->
           <li class="list-group-item list-group-item-secondary" id="cardElevation"></li>
           <li class="list-group-item list-group-item-secondary" id="cardEffort"></li>
           <li class="list-group-item list-group-item-secondary" id="cardCoordinates"></li>
@@ -51,7 +59,9 @@
           <li class="list-group-item list-group-item-secondary" id="cardSunset"></li>
           </li>
         </ul>
+
       </div>
+
     </div>
   </div>
 
