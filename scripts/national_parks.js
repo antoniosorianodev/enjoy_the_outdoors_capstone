@@ -6,22 +6,34 @@ window.onload = () => {
     const locationRadio = document.querySelector("#locationRadio");
     const parkTypeRadio = document.querySelector("#parkTypeRadio");
     const myTable = document.querySelector("#parksTable");
+    const myTableBody = document.querySelector("#tbody");
 
     myTable.style.display = "none";
     myDropdown.style.display = "none";
 
     // Why use closures? I believe if I can avoid calling the document I should, this allows me to pass in the already called
     // elements and last time I tried to pass in arguments to a function in an event listener without closures, it got mad.
-    allRadio.addEventListener("click", () => generateEntireTable(myTable));
+
+    // passing event into line 18's arrow function could(?) work, but I forsee issues as addTableCells isn't tied to an event listener in
+    // other lines where it is called
+    allRadio.addEventListener("click", () => addTableCells(nationalParksArray, myTable, myTableBody, myDropdown, allRadio));
     locationRadio.addEventListener("click", () => generateDropdown(myDropdown, locationRadio, parkTypeRadio, myTable));
     parkTypeRadio.addEventListener("click", () => generateDropdown(myDropdown, locationRadio, parkTypeRadio, myTable));
-    myDropdown.addEventListener("change", (event) => { generateTable(event.target, locationRadio, parkTypeRadio, myTable) });
+    myDropdown.addEventListener("change", (event) => { generateTable(event.target, locationRadio, parkTypeRadio, myTable, myTableBody, allRadio) });
 }
 
-function generateEntireTable(table) {
-    // this is literally copy and pasted except different array, revisit this and make it a funciton so it's reuseable
-    // as another to-do, hide the dropdown
-    nationalParksArray.forEach((park) => {
+function addTableCells(array, table, tbody, dropdown, all) {
+    table.style.display = "none";
+
+    if (all.checked) {
+        dropdown.style.display = "none";
+    } else {
+        dropdown.style.display = "block";
+    }
+
+
+    // for a given array, add a table rows with specific table data
+    array.forEach((park) => {
         const newRow = tbody.insertRow();
 
         const cellId = newRow.insertCell();
@@ -46,13 +58,15 @@ function generateEntireTable(table) {
         }
     });
 
-    // this is new
-    table.style.display = "block";
+    // if tbody.innerHTML has a TRUTHY value, show the entire table
+    if (tbody.innerHTML) {
+        table.style.display = "block";
+    }
 }
 
-function generateTable(dropdown, location, parkType, table) {
-    const tbody = document.querySelector("#tbody");
+function generateTable(dropdown, location, parkType, table, tbody, all) {
 
+    // when a radio button is clicked, hide the table ASAP
     table.style.display = "none";
 
     const currentSelection = dropdown.value;
@@ -70,34 +84,7 @@ function generateTable(dropdown, location, parkType, table) {
             relevantParksArray = filteredArray;
         }
 
-        relevantParksArray.forEach((park) => {
-            const newRow = tbody.insertRow();
-
-            const cellId = newRow.insertCell();
-            cellId.innerHTML = park.LocationID;
-
-            const cellName = newRow.insertCell();
-            cellName.innerHTML = park.LocationName;
-
-            const cellAddress = newRow.insertCell();
-            cellAddress.innerHTML = `<div>${park.Address}</div>
-            <div>${park.City}, ${park.State} ${park.ZipCode}</div>`;
-
-            const cellPhone = newRow.insertCell();
-            cellPhone.innerHTML = `<div><b>Phone:</b> ${convertNA(park.Phone)}</div>
-            <div><b>Fax:</b> ${convertNA(park.Fax)}</div>`;
-
-            const cellURL = newRow.insertCell();
-            if (park.Visit) {
-                cellURL.innerHTML = `<a href="${park.Visit}" target="_blank">${park.Visit}</a>`;
-            } else {
-                cellURL.innerHTML = "N/A";
-            }
-        });
-
-        if (tbody.innerHTML) {
-            table.style.display = "block";
-        }
+        addTableCells(relevantParksArray, table, tbody, dropdown, all);
     }
 }
 
