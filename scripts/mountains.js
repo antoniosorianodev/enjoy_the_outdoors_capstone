@@ -45,18 +45,18 @@ function createCard(dropdown, card) {
     // if dropdown.value doesn't equal "", or other FALSEY values
     if (dropdown.value) {
         // this is our currently selected mountain as an object
-        const objectFromArray = mountainsArray[dropdown.selectedIndex - 1];
+        const currentMountain = mountainsArray[dropdown.selectedIndex - 1];
 
         // set this to a constant because it's called more than once
         const cardImg = document.querySelector("#cardImg");
 
-        document.querySelector("#cardTitle").innerHTML = objectFromArray.name;
-        cardImg.src = `./images/${objectFromArray.img}`;
-        cardImg.alt = `An image of ${objectFromArray.name}`;
-        document.querySelector("#cardDescription").innerHTML = objectFromArray.desc;
-        document.querySelector("#cardElevation").innerHTML = `<b>Elevation:</b> ${objectFromArray.elevation} feet`;
-        document.querySelector("#cardEffort").innerHTML = `<b>Effort:</b> ${objectFromArray.effort}`;
-        document.querySelector("#cardCoordinates").innerHTML = `<b>Lat:</b> ${objectFromArray.coords.lat} <b>Lng:</b> ${objectFromArray.coords.lng}`;
+        document.querySelector("#cardTitle").innerHTML = currentMountain.name;
+        cardImg.src = `./images/${currentMountain.img}`;
+        cardImg.alt = `An image of ${currentMountain.name}`;
+        document.querySelector("#cardDescription").innerHTML = currentMountain.desc;
+        document.querySelector("#cardElevation").innerHTML = `<b>Elevation:</b> ${currentMountain.elevation} feet`;
+        document.querySelector("#cardEffort").innerHTML = `<b>Effort:</b> ${currentMountain.effort}`;
+        document.querySelector("#cardCoordinates").innerHTML = `<b>Lat:</b> ${currentMountain.coords.lat} <b>Lng:</b> ${currentMountain.coords.lng}`;
 
         // function that can "fetch" the sunset/sunrise times
         async function getSunsetForMountain(lat, lng) {
@@ -66,7 +66,7 @@ function createCard(dropdown, card) {
         }
 
         // Using the function to fetch the sunset/sunrise times for a specific mountain 
-        getSunsetForMountain(objectFromArray.coords.lat, objectFromArray.coords.lng).then(sunsetData => {
+        getSunsetForMountain(currentMountain.coords.lat, currentMountain.coords.lng).then(sunsetData => {
             document.querySelector("#cardSunrise").innerHTML = `<b>Sunrise:</b> ${sunsetData.results.sunrise} (UTC)`
             document.querySelector("#cardSunset").innerHTML = `<b>Sunrise:</b> ${sunsetData.results.sunset} (UTC)`
         });
